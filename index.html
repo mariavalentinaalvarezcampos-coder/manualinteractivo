@@ -1,0 +1,2539 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenimiento Preventivo - Manual Interactivo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --dark-bg: #242431;
+            --dark-card: #242431;
+            --dark-accent: #25253a;
+            --primary: #5e36a5;
+            --secondary: #5e36a5;
+            --accent: #30588a;
+            --text: #f5f5f5;
+            --text-light: #e0e5ec;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+       /* Pantalla de bienvenida */
+#pantalla-bienvenida {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 9999;
+  animation: desaparecer 3s ease forwards;
+}
+
+#pantalla-bienvenida h1 {
+  font-size: 3rem;
+  margin: 0;
+  animation: zoomIn 1.5s ease;
+}
+
+@keyframes desaparecer {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes zoomIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+    @keyframes desaparecer {
+      0% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+
+.membrete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background-color: var(--dark-bg);;
+  text-align: center;
+}
+
+.membrete .logo {
+  width: 110px;
+  height: auto;
+}
+
+.membrete .texto {
+  flex: 1 1 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.membrete .texto h1 {
+  margin: 0.2rem 0;
+  font-size: 1rem;
+  color: white;
+      }
+        /* Header móvil */
+        .mobile-header {
+            display: none;
+            background: var(--dark-card);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            
+        }
+
+        .mobile-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mobile-logo i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .mobile-logo-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Panel lateral */
+        .sidebar {
+            width: 280px;
+            background: var(--dark-card);
+            padding: 1.5rem;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.mobile-hidden {
+            transform: translateX(-100%);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--dark-accent);
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--dark-accent);
+            color: var(--accent);
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.full-width {
+            margin-left: 0;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, var(--dark-card), var(--dark-accent));
+            border-radius: 12px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .content-card {
+            background: var(--dark-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .card-icon i {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .card-content {
+            color: var(--text-light);
+        }
+
+        /* Páginas de contenido */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Estilos para el contenido de las páginas */
+        .info-card {
+            background: var(--dark-card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: var(--dark-accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .team-member:nth-child(1) { animation-delay: 0.1s; }
+        .team-member:nth-child(2) { animation-delay: 0.2s; }
+        .team-member:nth-child(3) { animation-delay: 0.3s; }
+        .team-member:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, var(--dark-accent), #2a2a35);
+        }
+
+        .member-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .team-member h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .team-member p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Componentes de las páginas */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Estilos del glosario */
+        .glosario-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .glosario-item:hover {
+            background-color: var(--dark-accent);
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+        
+        .glosario-item h3 {
+            margin: 0;
+            font-size: 1.1em;
+            color: #b2c5d9;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .glosario-item h3 i {
+            font-size: 1.3em;
+            min-width: 25px;
+        }
+        
+        .glosario-item h3::after {
+            content: "▶";
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+            margin-left: auto;
+            color: #b2c5d9;
+        }
+        
+        .glosario-item.active h3::after {
+            transform: rotate(90deg);
+        }
+        
+        .glosario-item p {
+            display: none;
+            margin: 5px 0 0;
+            color: #fff7f7;
+            padding-left: 20px;
+            line-height: 1.6;
+        }
+        
+        .glosario-item.active p {
+            display: block;
+        }
+
+        .component-card {
+            background: var(--dark-card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .component-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .component-header h4 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .component-icon {
+            font-size: 1.2rem;
+        }
+
+        .component-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .component-card.active .component-content {
+            padding: 1.5rem;
+            max-height: 800px;
+        }
+
+        .component-info {
+            border-top: 1px solid var(--dark-accent);
+            padding-top: 1rem;
+        }
+
+        .component-info p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .component-specs {
+            background: var(--dark-accent);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+        .component-specs h5 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .specs-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .specs-list li {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .specs-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Fallas comunes */
+        .issue-card {
+            background: var(--dark-card);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .issue-header {
+            background: var(--dark-accent);
+            padding: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .issue-header h4 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .issue-icon {
+            font-size: 1.2rem;
+            color: var(--warning);
+        }
+
+        .issue-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .issue-card.active .issue-content {
+            padding: 1.5rem;
+            max-height: 1000px;
+        }
+
+        .issue-causes, .issue-solutions {
+            margin-bottom: 1.5rem;
+        }
+
+        .issue-causes h5, .issue-solutions h5 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .issue-causes ul, .issue-solutions ul {
+            padding-left: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .issue-causes li, .issue-solutions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+
+        .warning {
+            color: var(--warning);
+        }
+
+        .success {
+            color: var(--success);
+        }
+
+        /* Equipos reparados */
+        .computer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .computer-card {
+            background: var(--dark-card);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .computer-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .computer-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .computer-info {
+            padding: 1.5rem;
+        }
+
+        /* Overlay para móvil */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .component-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Estilos para Pasos de Mantenimiento */
+        .maintenance-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        .step-card {
+            background: var(--dark-card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--dark-accent);
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+            border-color: var(--primary);
+        }
+
+        .step-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+        }
+
+        .step-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .step-card:hover .step-image {
+            transform: scale(1.1);
+        }
+
+        .step-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .step-card:hover .step-overlay {
+            opacity: 1;
+        }
+
+        .step-overlay i {
+            color: white;
+            font-size: 2.5rem;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover .step-overlay i {
+            transform: scale(1);
+        }
+
+        .step-content {
+            padding: 1.5rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content h3 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Estilos para Herramientas */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: var(--dark-card);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: var(--primary);
+            background: linear-gradient(145deg, var(--dark-card), var(--dark-accent));
+        }
+
+        .tool-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+            transition: transform 0.5s ease;
+            box-shadow: 0 10px 20px rgba(94, 54, 165, 0.3);
+        }
+
+        .tool-card:hover .tool-icon-wrapper {
+            transform: rotateY(180deg);
+        }
+
+        .tool-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .tool-list {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+            margin-top: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .tool-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .tool-list li:last-child {
+            border-bottom: none;
+        }
+
+        .tool-list li i {
+            color: var(--success);
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Modal de imagen */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .image-modal.active .modal-image {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-header {
+                display: block;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            
+            .sidebar.mobile-visible {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                padding-top: 80px;
+            }
+            
+            .welcome-section {
+                padding: 2rem;
+            }
+            
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .computer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-section {
+                padding: 1.5rem;
+            }
+            
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .card-icon {
+                margin-right: 0;
+            }
+            
+            .component-header h4, .issue-header h4 {
+                font-size: 0.9rem;
+            }
+            
+            .component-content, .issue-content {
+                padding: 1rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header móvil -->
+    <div class="mobile-header">
+        <div class="mobile-nav">
+            <div class="mobile-logo">
+                <i class="fas fa-laptop-code"></i>
+                <div class="mobile-logo-text">MantenimientoPC</div>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay para móvil -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Panel lateral -->
+    <div class="sidebar" id="sidebar">
+        
+    
+        
+            
+    
+
+        <div class="nav-section">
+            <div class="nav-title">Navegación</div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="about">
+                        <i class="fas fa-users"></i>
+                        <span>¿Quiénes Somos?</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="community">
+                        <i class="fas fa-school"></i>
+                        <span>Nuestra Comunidad</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Contenido</div>
+            <ul class="nav-menu">
+               <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="glosario">
+                        <i class="fas fa-book"></i>
+                        <span>Glosario</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="components">
+                        <i class="fas fa-microchip"></i>
+                       <span>Componentes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="issues">
+                        <i class="fas fa-tools"></i>
+                      
+                        <span>Fallas Comunes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="tools">
+                        <i class="fas fa-toolbox"></i>
+                        <span>Herramientas Necesarias</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="maintenance">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Mantenimiento</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="gallery">
+                        <i class="fas fa-images"></i>
+                        <span>Galería</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-content" id="mainContent">
+      <!-- Membrete institucional -->
+<div class="membrete">
+  <img src="https://i.imgur.com/oI3xIZR.png" alt="Logo ETN" class="logo" />
+  <div class="texto">
+    <h1>República Bolivariana de Venezuela</h1>
+    <h1>Ministerio del Poder Popular Para la Educación</h1>
+    <h1>Universidad Politécnica Territorial del Estado Aragua "Federico Brito Figueroa"</h1>
+    <h1>La Victoria, Edo. Aragua</h1>
+  </div>
+  <img src="https://i.imgur.com/eS1PL9y.png" alt="Logo UPTA" class="logo" />
+</div>
+        <!-- Página de Inicio -->
+        <div id="home" class="page active">
+            <div class="welcome-section">
+                <h1 class="welcome-title">¡Bienvenido/a!</h1>
+                <p class="welcome-subtitle">Acá encontrarás un manual interactivo para el mantenimiento preventivo de tu computador.</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card" data-page="about">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-title">¿Quiénes Somos?</div>
+                    </div>
+                    <div class="card-content">
+                        Conoce nuestro equipo y el proyecto de recuperación de equipos informáticos.
+                    </div>
+                </div>
+
+                <div class="content-card" data-page="community">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-school"></i>
+                        </div>
+                        <div class="card-title">Nuestra Comunidad</div>
+                    </div>
+                    <div class="card-content">
+                        Información sobre el Liceo Nacional José Félix Ribas y nuestro trabajo allí.
+                    </div>
+                </div>
+
+                <div class="content-card" data-page="components">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="card-title">Componentes</div>
+                    </div>
+                    <div class="card-content">
+                        Conoce todos los componentes de un computador y sus funciones principales.
+                    </div>
+                </div>
+
+                <div class="content-card" data-page="issues">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="card-title">Fallas Comunes</div>
+                    </div>
+                    <div class="card-content">
+                        Aprende a identificar y solucionar los problemas más frecuentes en computadoras.
+                    </div>
+                </div>
+
+                <div class="content-card" data-page="tools">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-toolbox"></i>
+                        </div>
+                        <div class="card-title">Herramientas Necesarias</div>
+                    </div>
+                    <div class="card-content">
+                        Conoce el kit básico de herramientas para realizar mantenimiento preventivo.
+                    </div>
+                </div>
+
+                <div class="content-card" data-page="maintenance">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="card-title">Mantenimiento</div>
+                    </div>
+                    <div class="card-content">
+                        Guía completa de mantenimiento preventivo para prolongar la vida de tu equipo.
+                    </div>
+                </div>
+
+                <div class="content-card" data-page="gallery">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        <div class="card-title">Galería</div>
+                    </div>
+                    <div class="card-content">
+                        Mira videos tutoriales sobre cómo realizar un mantenimiento preventivo correcto.
+                    </div>
+                </div>
+
+
+
+                <div class="content-card" data-page="glosario">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="card-title">Glosario</div>
+                    </div>
+                    <div class="card-content">
+                        Consulta términos técnicos de mantenimiento y aprende su significado.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página de ¿Quiénes Somos? -->
+        <div id="about" class="page">
+            <div class="page-header">
+                <h1 class="page-title">¿Quiénes Somos?</h1>
+                <p class="page-subtitle">Conoce nuestro equipo y misión</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-university"></i> Nuestro Proyecto</h3>
+                <p>Somos un grupo de jóvenes universitarios comprometidos con el desarrollo tecnológico y social de nuestra comunidad. A través de este proyecto hemos dedicado nuestro tiempo, conocimientos y esfuerzo a la recuperación de equipos informáticos en el Liceo Nacional "José Félix Rivas" ubicado en La Victoria, estado Aragua.</p>
+                <p>Nuestro objetivo principal ha sido extender la vida útil de computadoras que se encontraban en mal estado, brindando soluciones prácticas y sostenibles que permitan su reutilización en actividades educativas, administrativas y comunitarias.</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-bullseye"></i> Nuestra Misión</h3>
+                <p>Contribuir al desarrollo educativo y tecnológico de nuestra comunidad mediante la recuperación y mantenimiento de equipos informáticos, promoviendo la sostenibilidad y el acceso a la tecnología para todos.</p>
+            </div>
+
+            <!-- Sección de Miembros del Equipo (Sin Fotos) -->
+            <div class="info-card">
+                <h3><i class="fas fa-users"></i> Nuestro Equipo</h3>
+                <p>Contamos con un equipo de estudiantes que dedican su tiempo y conocimientos a este proyecto comunitario.</p>
+                
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="https://i.imgur.com/5p1OmA9.jpeg" alt="María Álvarez" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 1rem; display: block; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        <h4>María Álvarez </h4>
+                        <p style="font-size: 0.85rem; line-height: 1.4;">Estudiante de la Universidad Politécnica Territorial de Aragua “Federico Brito Figueroa”, Cursante del PNF de Informática.</p>
+       
+                    </div>
+                    <div class="team-member">
+                        <img src="https://i.imgur.com/uKX6loa.jpeg" alt="Zuleymar Lugo" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 1rem; display: block; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        <h4>Zuleymar Lugo</h4>
+                        <p style="font-size: 0.85rem; line-height: 1.4;">Estudiante de la Universidad Politécnica Territorial de Aragua “Federico Brito Figueroa”, Cursante del PNF de Informática.</p>
+                       
+                    </div>
+                    <div class="team-member">
+                        <img src="https://i.imgur.com/Z2Knono.jpeg" alt="César Romero" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 1rem; display: block; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        <h4>César Romero</h4>
+                        <p style="font-size: 0.85rem; line-height: 1.4;">Estudiante de la Universidad Politécnica Territorial de Aragua “Federico Brito Figueroa”, Cursante del PNF de Informática.</p>
+                                                  
+
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3><i class="fas fa-chalkboard-teacher"></i> Supervisión del Proyecto</h3>
+                
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4>Ing. Kervin Licett</h4>
+                        <p style="color: var(--accent); font-weight: bold; margin-bottom: 0.5rem;">Tutor del Proyecto</p>
+                        <p>Ingeniero en Informática egresado de la UPTA. Con amplia experiencia en la formación de nuevos talentos en el área de informática.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4>Ing. Dianella Stuch</h4>
+                        <p style="color: var(--accent); font-weight: bold; margin-bottom: 0.5rem;">Coordinadora de Proyecto</p>
+                        <p>Ingeniera en Informática procedente de la UPTA. Destacada por su liderazgo en la coordinación de iniciativas tecnológicas educativas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+   <!-- Página de Nuestra Comunidad -->
+        <div id="community" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Nuestra Comunidad</h1>
+                <p class="page-subtitle">El Liceo Nacional José Félix Ribas</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-school"></i> Liceo Nacional "José Félix Ribas"</h3>
+                <p>El Liceo Nacional "José Félix Ribas" representa un espacio educativo fundamental para los jóvenes. Contando con más de un siglo de trayectoria, este liceo se ha consolidado como uno de los pilares más importantes en la formación académica, siendo referencia en valores, compromiso y excelencia educativa.</p>
+                <p>Nuestro proyecto busca apoyar la labor educativa de esta institución mediante la recuperación y mantenimiento de equipos informáticos, facilitando el acceso a la tecnología tanto para estudiantes como para docentes.</p>
+            </div>
+
+            <div class="info-card">
+                <img src="https://i.imgur.com/PWFK5sH.jpeg" alt="Nuestra Comunidad" style="width: 100%; border-radius: 8px; display: block;">
+            </div>
+        </div>
+        <!-- Página de Glosario -->
+        <div id="glosario" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Glosario de Términos</h1>
+                <p class="page-subtitle">Términos técnicos de mantenimiento de computadoras</p>
+            </div>
+
+            <div class="info-card">
+                <div class="glosario-item">
+                    <h3><i class="fas fa-check-square" style="color: #10b981;"></i> Checklist</h3>
+                    <p>Es una herramienta de control fundamental que consiste en una lista detallada de tareas, componentes o pasos críticos que deben verificarse durante un proceso de mantenimiento. Su objetivo principal es garantizar que ninguna actividad esencial sea omitida, asegurando la estandarización y calidad de la intervención técnica.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-chart-line" style="color: #3b82f6;"></i> Condición Operativa</h3>
+                    <p>Se refiere al estado funcional y de rendimiento de un equipo o componente en un momento determinado. Evaluar la condición operativa implica analizar si el sistema cumple con sus especificaciones técnicas de diseño y si es capaz de realizar sus funciones de manera segura, eficiente y confiable bajo las cargas de trabajo habituales.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-stethoscope" style="color: #8b5cf6;"></i> Diagnóstico</h3>
+                    <p>Es el proceso analítico y sistemático utilizado para identificar la naturaleza, causa y ubicación exacta de una falla o anomalía en un sistema informático. Un buen diagnóstico combina la observación de síntomas, el uso de herramientas de software especializadas y pruebas de hardware para determinar la solución más efectiva y económica.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> Falla</h3>
+                    <p>Se define como la terminación de la capacidad de un equipo para realizar su función requerida. Las fallas pueden ser totales (el equipo deja de funcionar por completo) o parciales (el equipo funciona pero con rendimiento degradado), y pueden originarse por desgaste natural, mal uso, falta de mantenimiento o defectos de fabricación.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-search" style="color: #3b82f6;"></i> Inspección</h3>
+                    <p>Es una actividad de revisión técnica, tanto visual como instrumental, que se realiza para evaluar el estado físico de los componentes. Durante la inspección se buscan signos de desgaste, acumulación de suciedad, conexiones flojas o daños visibles que podrían derivar en fallas futuras si no se atienden de manera oportuna.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-calendar-alt" style="color: #f59e0b;"></i> Intervalo de Mantenimiento</h3>
+                    <p>Es el periodo de tiempo o frecuencia establecida entre dos actividades consecutivas de mantenimiento preventivo. Este intervalo se determina basándose en las recomendaciones del fabricante, el entorno de operación (polvo, humedad, temperatura) y la intensidad de uso del equipo para maximizar su disponibilidad.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-wrench" style="color: #f59e0b;"></i> Mantenimiento Correctivo</h3>
+                    <p>Es el conjunto de tareas destinadas a corregir fallas o defectos que ya se han presentado en el equipo. A diferencia del preventivo, este mantenimiento es reactivo y busca restaurar la operatividad del sistema mediante la reparación o el reemplazo de piezas dañadas una vez que el problema ha interrumpido el funcionamiento normal.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-shield-alt" style="color: #10b981;"></i> Mantenimiento Preventivo</h3>
+                    <p>Consiste en la ejecución programada de actividades de limpieza, ajuste, lubricación y reemplazo de componentes menores antes de que ocurra una falla. Su propósito es reducir la probabilidad de averías imprevistas, optimizar el rendimiento del sistema y prolongar significativamente la vida útil de los activos tecnológicos.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-clipboard-list" style="color: #06b6d4;"></i> Plan de Mantenimiento</h3>
+                    <p>Es un documento estratégico y detallado que define el conjunto de tareas de mantenimiento que se deben realizar a un equipo o flota de equipos. Incluye la descripción de las actividades, los recursos necesarios (herramientas, repuestos), la frecuencia de ejecución y los responsables de llevar a cabo cada tarea.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-file-alt" style="color: #6366f1;"></i> Registro de Mantenimiento</h3>
+                    <p>Es el historial documentado donde se anotan todas las intervenciones realizadas a un equipo, incluyendo fechas, tipos de mantenimiento, repuestos utilizados y observaciones técnicas. Este registro es vital para el seguimiento de la garantía, el análisis de fallas recurrentes y la toma de decisiones sobre la renovación del equipo.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-tools" style="color: #f59e0b;"></i> Reparación</h3>
+                    <p>Es la acción física de intervenir un componente o sistema para devolverle su estado de funcionamiento óptimo. Puede implicar el arreglo de una pieza existente o su sustitución por una nueva, y generalmente requiere de habilidades técnicas específicas y el uso de herramientas adecuadas para asegurar la integridad del equipo.</p>
+                </div>
+                <div class="glosario-item">
+                    <h3><i class="fas fa-hourglass-half" style="color: #14b8a6;"></i> Vida Útil</h3>
+                    <p>Es el periodo de tiempo estimado durante el cual se espera que un equipo funcione de manera eficiente y rentable cumpliendo con su propósito original. Al final de su vida útil, el costo de mantenimiento y el riesgo de fallas suelen ser tan altos que resulta más conveniente y económico reemplazar el equipo por uno nuevo.</p>
+                </div>
+            </div>
+        </div>                           
+                                            
+                                  
+
+        <!-- Página de Componentes -->
+        <div id="components" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Componentes del Computador</h1>
+                <p class="page-subtitle">Aprende sobre cada parte de tu equipo</p>
+            </div>
+            <div class="component-grid">
+                <!-- Procesador -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-microchip component-icon"></i> Procesador (CPU)</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/JqqYUS2.jpeg" alt="Procesador" class="component-img">
+                        <div class="component-info">
+                            <p>El procesador es el cerebro del computador, encargado de ejecutar instrucciones y procesar datos. Interpreta y ejecuta la mayoría de los comandos del hardware y software.</p>
+                            <div class="component-specs">
+                                <h5>Características principales:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Velocidad:</strong> Se mide en GHz (gigahercios)</li>
+                                    <li><strong>Núcleos:</strong> Número de unidades de procesamiento</li>
+                                    <li><strong>Cache:</strong> Memoria interna rápida</li>
+                                    <li><strong>Socket:</strong> Tipo de conexión a la placa base</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Memoria RAM -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-memory component-icon"></i> Memoria RAM</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/weixnr4.jpeg" alt="Memoria RAM" class="component-img">
+                        <div class="component-info">
+                            <p>La memoria RAM almacena temporalmente los datos que el procesador necesita acceder rápidamente. Es volátil, lo que significa que pierde su contenido al apagar el equipo.</p>
+                            <div class="component-specs">
+                                <h5>Características principales:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Capacidad:</strong> Se mide en GB (gigabytes)</li>
+                                    <li><strong>Velocidad:</strong> Se mide en MHz (megahercios)</li>
+                                    <li><strong>Tipo:</strong> DDR3, DDR4, DDR5</li>
+                                    <li><strong>Latencia:</strong> Tiempo de respuesta</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disco Duro -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-hdd component-icon"></i> Disco Duro</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/Q4fkgWV.jpeg" alt="Disco Duro" class="component-img">
+                        <div class="component-info">
+                            <p>El disco duro es el dispositivo de almacenamiento permanente donde se guardan el sistema operativo, programas y archivos. Existen dos tipos principales: HDD y SSD.</p>
+                            <div class="component-specs">
+                                <h5>Tipos de almacenamiento:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>HDD:</strong> Discos magnéticos, más económicos</li>
+                                    <li><strong>SSD:</strong> Memoria flash, más rápidos</li>
+                                    <li><strong>NVMe:</strong> SSD de ultra alta velocidad</li>
+                                    <li><strong>HDD Externo:</strong> Almacenamiento portátil</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placa Base -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-project-diagram component-icon"></i> Placa Base</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/Cx5q1lU.jpeg" alt="Placa Base" class="component-img">
+                        <div class="component-info">
+                            <p>La placa base es el circuito principal que conecta todos los componentes del computador. Determina qué tipo de procesador, memoria y otros componentes puedes usar.</p>
+                            <div class="component-specs">
+                                <h5>Componentes integrados:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Socket:</strong> Para el procesador</li>
+                                    <li><strong>Ranuras RAM:</strong> Para memoria</li>
+                                    <li><strong>Ranuras PCIe:</strong> Para tarjetas de expansión</li>
+                                    <li><strong>Conectores SATA:</strong> Para almacenamiento</li>
+                                    <li><strong>Puertos USB:</strong> Para periféricos</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Gráfica -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-desktop component-icon"></i> Tarjeta Gráfica (GPU)</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/iPLbMFa.jpeg" alt="Tarjeta Gráfica" class="component-img">
+                        <div class="component-info">
+                            <p>La tarjeta gráfica procesa y renderiza imágenes, videos y animaciones. Puede estar integrada en el procesador o ser una tarjeta dedicada para mayor rendimiento.</p>
+                            <div class="component-specs">
+                                <h5>Características principales:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>VRAM:</strong> Memoria dedicada para gráficos</li>
+                                    <li><strong>Velocidad de reloj:</strong> Rendimiento del GPU</li>
+                                    <li><strong>Puertos:</strong> HDMI, DisplayPort, VGA</li>
+                                    <li><strong>Resolución soportada:</strong> 4K, 8K, etc.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fuente de Alimentación -->
+                <div class="component-card">
+                                 
+                    <div class="component-header">
+                       <h4><i class="fas fa-bolt component-icon"></i> Fuente de Alimentación</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/0hx0ym3.jpeg" alt="Fuente de Alimentación" class="component-img">
+                        <div class="component-info">
+                            <p>La fuente de alimentación convierte la corriente alterna de la pared en corriente continua que los componentes del computador pueden usar. Proporciona energía estable a todo el sistema.</p>
+                            <div class="component-specs">
+                                <h5>Especificaciones importantes:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Potencia:</strong> Se mide en vatios (W)</li>
+                                    <li><strong>Eficiencia:</strong> Certificación 80 Plus</li>
+                                    <li><strong>Conectores:</strong> ATX, PCIe, SATA, Molex</li>
+                                    <li><strong>Modularidad:</strong> Cableado modular o fijo</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ventilador/Cooler -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-fan component-icon"></i> Sistema de Refrigeración</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/ePj9Jh1.jpeg" alt="Sistema de Refrigeración" class="component-img">
+                        <div class="component-info">
+                            <p>El sistema de refrigeración mantiene la temperatura adecuada de los componentes, especialmente el procesador y tarjeta gráfica, evitando el sobrecalentamiento y garantizando un rendimiento óptimo.</p>
+                            <div class="component-specs">
+                                <h5>Tipos de refrigeración:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Aire:</strong> Ventiladores y disipadores de calor</li>
+                                    <li><strong>Líquida:</strong> Sistema de circuito cerrado o personalizado</li>
+                                    <li><strong>Pasiva:</strong> Disipadores sin ventiladores</li>
+                                    <li><strong>Híbrida:</strong> Combinación de aire y líquido</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de Red -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-network-wired component-icon"></i> Tarjeta de Red</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/uHrELLF.jpeg" alt="Tarjeta de Red" class="component-img">
+                        <div class="component-info">
+                            <p>La tarjeta de red permite la conexión del computador a redes locales (LAN) e Internet. Puede estar integrada en la placa base o ser una tarjeta de expansión independiente.</p>
+                            <div class="component-specs">
+                                <h5>Características principales:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Velocidad:</strong> 10/100/1000 Mbps (Gigabit)</li>
+                                    <li><strong>Tipo:</strong> Ethernet (cableada), WiFi (inalámbrica)</li>
+                                    <li><strong>Estándar WiFi:</strong> 802.11ac, 802.11ax (WiFi 6)</li>
+                                    <li><strong>Conectores:</strong> RJ-45 para cables Ethernet</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de Sonido -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-volume-up component-icon"></i> Tarjeta de Sonido</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/ylhXJnv.jpeg" alt="Tarjeta de Sonido" class="component-img">
+                        <div class="component-info">
+                            <p>La tarjeta de sonido procesa el audio digital y lo convierte en señales analógicas para los altavoces. Puede estar integrada en la placa base o ser una tarjeta dedicada para mayor calidad de audio.</p>
+                            <div class="component-specs">
+                                <h5>Características principales:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Canales:</strong> Estéreo, 5.1, 7.1 surround</li>
+                                    <li><strong>Calidad:</strong> 16-bit, 24-bit, 32-bit</li>
+                                    <li><strong>Frecuencia:</strong> 44.1 kHz, 48 kHz, 96 kHz, 192 kHz</li>
+                                    <li><strong>Puertos:</strong> Jack 3.5mm, óptico, HDMI</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unidad Óptica -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-compact-disc component-icon"></i> Unidad Óptica</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/8UOnenb.jpeg" alt="Unidad Óptica" class="component-img">
+                        <div class="component-info">
+                            <p>La unidad óptica permite leer y grabar discos CD, DVD y Blu-ray. Aunque cada vez menos común en computadoras modernas, aún es útil para instalación de software y reproducción de medios físicos.</p>
+                            <div class="component-specs">
+                                <h5>Tipos de unidades:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>CD-ROM:</strong> Solo lectura de CDs</li>
+                                    <li><strong>DVD-RW:</strong> Lectura y escritura de DVDs</li>
+                                    <li><strong>Blu-ray:</strong> Alta capacidad y calidad HD</li>
+                                    <li><strong>Combo:</strong> Múltiples formatos compatibles</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gabinete/Carcasa -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-box component-icon"></i> Gabinete (Carcasa)</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/qagaUns.jpeg" alt="Gabinete" class="component-img">
+                        <div class="component-info">
+                            <p>El gabinete o carcasa es la estructura que contiene y protege todos los componentes internos del computador. También proporciona refrigeración mediante ventiladores y gestión de cables.</p>
+                            <div class="component-specs">
+                                <h5>Tipos de gabinete:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Mini Tower:</strong> Compacto, para placas micro-ATX</li>
+                                    <li><strong>Mid Tower:</strong> Tamaño estándar, más común</li>
+                                    <li><strong>Full Tower:</strong> Grande, para configuraciones avanzadas</li>
+                                    <li><strong>Factor de forma:</strong> ATX, micro-ATX, mini-ITX</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BIOS/UEFI -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-cog component-icon"></i> BIOS/UEFI</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/i3amKBd.png" alt="BIOS/UEFI" class="component-img">
+                        <div class="component-info">
+                            <p>El BIOS (Basic Input/Output System) o UEFI (Unified Extensible Firmware Interface) es el firmware que inicia el hardware durante el arranque y proporciona servicios de runtime para sistemas operativos y programas.</p>
+                            <div class="component-specs">
+                                <h5>Funciones principales:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>POST:</strong> Power-On Self-Test al encender</li>
+                                    <li><strong>Boot:</strong> Carga del sistema operativo</li>
+                                    <li><strong>Configuración:</strong> Ajustes de hardware y overclock</li>
+                                    <li><strong>Seguridad:</strong> Contraseñas y Secure Boot</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chipset -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-microchip component-icon"></i> Chipset</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/AKpR0D0.jpeg" alt="Chipset" class="component-img">
+                        <div class="component-info">
+                            <p>El chipset es un conjunto de chips en la placa base que gestiona la comunicación entre el procesador, memoria, almacenamiento y periféricos. Determina las capacidades y compatibilidad del sistema.</p>
+                            <div class="component-specs">
+                                <h5>Componentes principales:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Northbridge:</strong> Controla CPU, RAM y GPU (en chipsets antiguos)</li>
+                                    <li><strong>Southbridge:</strong> Gestiona I/O, USB, SATA y audio</li>
+                                    <li><strong>Controlador:</strong> PCIe, USB, Ethernet integrados</li>
+                                    <li><strong>Compatibilidad:</strong> Define CPU y RAM soportados</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buses de Datos -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-arrows-alt-h component-icon"></i> Buses de Datos</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/OZumkBF.jpeg" alt="Buses de Datos" class="component-img">
+                        <div class="component-info">
+                            <p>Los buses de datos son canales de comunicación que transfieren información entre los componentes del computador. Su ancho y velocidad determinan el rendimiento del sistema.</p>
+                            <div class="component-specs">
+                                <h5>Tipos de buses:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Bus de datos:</strong> Transporta información entre componentes</li>
+                                    <li><strong>Bus de direcciones:</strong> Especifica ubicaciones de memoria</li>
+                                    <li><strong>Bus de control:</strong> Coordina operaciones del sistema</li>
+                                    <li><strong>Ancho:</strong> 32-bit, 64-bit determina capacidad</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Batería CMOS -->
+                <div class="component-card">
+                    <div class="component-header">
+                        <h4><i class="fas fa-battery-half component-icon"></i> Batería CMOS</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="component-content">
+                        <img src="https://i.imgur.com/VztAioG.jpeg" alt="Batería CMOS" class="component-img">
+                        <div class="component-info">
+                            <p>La batería CMOS (Complementary Metal-Oxide-Semiconductor) mantiene la configuración del BIOS y el reloj del sistema cuando el computador está apagado. Generalmente es una batería de litio CR2032.</p>
+                            <div class="component-specs">
+                                <h5>Funciones:</h5>
+                                <ul class="specs-list">
+                                    <li><strong>Memoria BIOS:</strong> Guarda configuración del sistema</li>
+                                    <li><strong>Reloj RTC:</strong> Mantiene fecha y hora</li>
+                                    <li><strong>Duración:</strong> 3-5 años típicamente</li>
+                                    <li><strong>Señal de fallo:</strong> Hora incorrecta o pérdida de config</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página de Fallas Comunes -->
+        <div id="issues" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Fallas Comunes del Computador</h1>
+                <p class="page-subtitle">Aprende a identificar y solucionar los problemas más frecuentes</p>
+            </div>
+
+            <div class="issues-list">
+                <!-- Fallas existentes -->
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <h4><i class="fas fa-tachometer-alt issue-icon"></i> Computador lento</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="issue-content">
+                        <div class="issue-causes">
+                            <h5><i class="fas fa-exclamation-circle danger"></i> Causas posibles:</h5>
+                            <ul>
+                                <li>Poco espacio en disco duro</li>
+                                <li>Demasiados programas al inicio</li>
+                                <li>Infección de malware o virus</li>
+                                <li>Memoria RAM insuficiente</li>
+                                <li>Fragmentación del disco duro</li>
+                                <li>Procesador sobrecargado</li>
+                            </ul>
+                        </div>
+                        <div class="issue-solutions">
+                            <h5><i class="fas fa-wrench warning"></i> Soluciones:</h5>
+                            <ul>
+                                <li>Liberar espacio en disco eliminando archivos temporales</li>
+                                <li>Desactivar programas innecesarios al inicio</li>
+                                <li>Ejecutar análisis completo con antivirus</li>
+                                <li>Aumentar memoria RAM si es posible</li>
+                                <li>Desfragmentar el disco duro (solo HDD)</li>
+                                <li>Verificar procesos que consumen muchos recursos</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <h4><i class="fas fa-power-off issue-icon"></i> No enciende</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="issue-content">
+                        <div class="issue-causes">
+                            <h5><i class="fas fa-exclamation-circle danger"></i> Causas posibles:</h5>
+                            <ul>
+                                <li>Problemas de energía eléctrica</li>
+                                <li>Fuente de alimentación dañada</li>
+                                <li>Falla en la placa base</li>
+                                <li>Cable de alimentación defectuoso</li>
+                                <li>Interruptor de fuente en posición OFF</li>
+                                <li>Procesador quemado</li>
+                            </ul>
+                        </div>
+                        <div class="issue-solutions">
+                            <h5><i class="fas fa-wrench warning"></i> Soluciones:</h5>
+                            <ul>
+                                <li>Verificar cable de alimentación y tomacorriente</li>
+                                <li>Probar con otra toma de corriente</li>
+                                <li>Revisar interruptor de la fuente de alimentación</li>
+                                <li>Probar con otra fuente de alimentación</li>
+                                <li>Verificar conexiones internas</li>
+                                <li>Revisar fusibles de la placa base</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <h4><i class="fas fa-desktop issue-icon"></i> Pantalla azul (BSOD)</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="issue-content">
+                        <div class="issue-causes">
+                            <h5><i class="fas fa-exclamation-circle danger"></i> Causas posibles:</h5>
+                            <ul>
+                                <li>Drivers desactualizados o corruptos</li>
+                                <li>Problemas de hardware (RAM, disco duro)</li>
+                                <li>Conflictos de software</li>
+                                <li>Sobrecalentamiento del sistema</li>
+                                <li>Archivos de sistema dañados</li>
+                                <li>Problemas con actualizaciones de Windows</li>
+                            </ul>
+                        </div>
+                        <div class="issue-solutions">
+                            <h5><i class="fas fa-wrench warning"></i> Soluciones:</h5>
+                            <ul>
+                                <li>Actualizar drivers, especialmente gráficos</li>
+                                <li>Verificar temperatura del equipo</li>
+                                <li>Realizar análisis de memoria RAM</li>
+                                <li>Ejecutar comprobación de archivos de sistema (sfc /scannow)</li>
+                                <li>Desinstalar software recientemente instalado</li>
+                                <li>Restaurar sistema a punto anterior</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NUEVAS FALLAS AGREGADAS -->
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <h4><i class="fas fa-thermometer-full issue-icon"></i> Sobrecalentamiento</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="issue-content">
+                        <div class="issue-causes">
+                            <h5><i class="fas fa-exclamation-circle danger"></i> Causas posibles:</h5>
+                            <ul>
+                                <li>Ventiladores obstruidos por polvo</li>
+                                <li>Pasta térmica seca o de mala calidad</li>
+                                <li>Ambiente con alta temperatura</li>
+                                <li>Ventiladores dañados o funcionando mal</li>
+                                <li>Flujo de aire obstruido en la torre</li>
+                                <li>Overclocking excesivo</li>
+                            </ul>
+                        </div>
+                        <div class="issue-solutions">
+                            <h5><i class="fas fa-wrench warning"></i> Soluciones:</h5>
+                            <ul>
+                                <li>Limpiar ventiladores y disipadores con aire comprimido</li>
+                                <li>Aplicar nueva pasta térmica al procesador</li>
+                                <li>Mantener el equipo en lugar ventilado</li>
+                                <li>Reemplazar ventiladores dañados</li>
+                                <li>Verificar que la torre tenga buen flujo de aire</li>
+                                <li>Reducir overclocking si existe</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <h4><i class="fas fa-wifi issue-icon"></i> Problemas de conexión a Internet</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="issue-content">
+                        <div class="issue-causes">
+                            <h5><i class="fas fa-exclamation-circle danger"></i> Causas posibles:</h5>
+                            <ul>
+                                <li>Configuración incorrecta de red</li>
+                                <li>Controladores de red desactualizados</li>
+                                <li>Problemas con el router/módem</li>
+                                <li>Interferencias en señal WiFi</li>
+                                <li>Tarjeta de red dañada</li>
+                                <li>Firewall bloqueando la conexión</li>
+                            </ul>
+                        </div>
+                        <div class="issue-solutions">
+                            <h5><i class="fas fa-wrench warning"></i> Soluciones:</h5>
+                            <ul>
+                                <li>Reiniciar router y computador</li>
+                                <li>Actualizar controladores de red</li>
+                                <li>Ejecutar solucionador de problemas de Windows</li>
+                                <li>Verificar configuración IP (DHCP)</li>
+                                <li>Probar con cable Ethernet en lugar de WiFi</li>
+                                <li>Revisar configuración del firewall</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <h4><i class="fas fa-hdd issue-icon"></i> Disco duro haciendo ruido</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="issue-content">
+                        <div class="issue-causes">
+                            <h5><i class="fas fa-exclamation-circle danger"></i> Causas posibles:</h5>
+                            <ul>
+                                <li>Discos mecánicos (HDD) con sectores dañados</li>
+                                <li>Cabezales de lectura/escritura desgastados</li>
+                                <li>Falla mecánica inminente</li>
+                                <li>Vibraciones en el montaje del disco</li>
+                                <li>Firmware corrupto</li>
+                                <li>Falla en el motor del disco</li>
+                            </ul>
+                        </div>
+                        <div class="issue-solutions">
+                            <h5><i class="fas fa-wrench warning"></i> Soluciones:</h5>
+                            <ul>
+                                <li>Realizar backup inmediato de datos importantes</li>
+                                <li>Ejecutar CHKDSK para verificar integridad</li>
+                                <li>Verificar conexiones SATA/IDE y de energía</li>
+                                <li>Asegurar correcto montaje en la bahía</li>
+                                <li>Considerar reemplazo por SSD</li>
+                                <li>Usar herramientas de diagnóstico del fabricante</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <h4><i class="fas fa-usb issue-icon"></i> Puertos USB no funcionan</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="issue-content">
+                        <div class="issue-causes">
+                            <h5><i class="fas fa-exclamation-circle danger"></i> Causas posibles:</h5>
+                            <ul>
+                                <li>Controladores USB desactualizados</li>
+                                <li>Configuración de energía suspendiendo puertos</li>
+                                <li>Puertos USB físicamente dañados</li>
+                                <li>Falla en el controlador USB de la placa base</li>
+                                <li>Dispositivo USB incompatible o defectuoso</li>
+                                <li>Configuración BIOS incorrecta</li>
+                            </ul>
+                        </div>
+                        <div class="issue-solutions">
+                            <h5><i class="fas fa-wrench warning"></i> Soluciones:</h5>
+                            <ul>
+                                <li>Actualizar controladores USB</li>
+                                <li>Desactivar suspensión selectiva de USB en opciones de energía</li>
+                                <li>Probar diferentes puertos USB</li>
+                                <li>Probar diferentes dispositivos USB</li>
+                                <li>Reiniciar el administrador de dispositivos USB</li>
+                                <li>Verificar configuración USB en BIOS</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="issue-card">
+                    <div class="issue-header">
+                        <h4><i class="fas fa-volume-mute issue-icon"></i> Sin sonido</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="issue-content">
+                        <div class="issue-causes">
+                            <h5><i class="fas fa-exclamation-circle danger"></i> Causas posibles:</h5>
+                            <ul>
+                                <li>Controladores de audio desactualizados</li>
+                                <li>Salida de audio incorrecta seleccionada</li>
+                                <li>Volumen silenciado o muy bajo</li>
+                                <li>Tarjeta de audio dañada</li>
+                                <li>Configuración de sonido incorrecta</li>
+                                <li>Altavoces/auriculares defectuosos</li>
+                            </ul>
+                        </div>
+                        <div class="issue-solutions">
+                            <h5><i class="fas fa-wrench warning"></i> Soluciones:</h5>
+                            <ul>
+                                <li>Verificar que no esté en modo silencio</li>
+                                <li>Actualizar controladores de audio</li>
+                                <li>Verificar dispositivo de salida predeterminado</li>
+                                <li>Probar con diferentes altavoces/auriculares</li>
+                                <li>Ejecutar solucionador de problemas de audio</li>
+                                <li>Revisar conexiones de audio</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página de Herramientas Necesarias -->
+        <div id="tools" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Herramientas Necesarias</h1>
+                <p class="page-subtitle">Kit básico para el mantenimiento preventivo</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-toolbox"></i> Kit Básico de Mantenimiento</h3>
+                <p>Para realizar un mantenimiento preventivo adecuado, es fundamental contar con las herramientas correctas. A continuación, se detallan los elementos esenciales que debe contener tu kit.</p>
+            </div>
+
+            <div class="tools-grid">
+                <!-- Destornilladores -->
+                <div class="tool-card">
+                    <div class="tool-icon-wrapper">
+                        <i class="fas fa-screwdriver"></i>
+                    </div>
+                    <h3 class="tool-title">Destornilladores</h3>
+                    <p>Herramientas esenciales para abrir el gabinete y remover componentes.</p>
+                    <ul class="tool-list">
+                        <li><i class="fas fa-check"></i> Phillips (Estrella) #1 y #2</li>
+                        <li><i class="fas fa-check"></i> Plano (Pala)</li>
+                        <li><i class="fas fa-check"></i> Kit de Precisión</li>
+                    </ul>
+                </div>
+
+                <!-- Limpieza -->
+                <div class="tool-card">
+                    <div class="tool-icon-wrapper">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <h3 class="tool-title">Limpieza</h3>
+                    <p>Elementos para eliminar el polvo y la suciedad sin dañar los componentes.</p>
+                    <ul class="tool-list">
+                        <li><i class="fas fa-check"></i> Aire Comprimido / Sopladora</li>
+                        <li><i class="fas fa-check"></i> Brocha Antiestática</li>
+                        <li><i class="fas fa-check"></i> Paño de Microfibra</li>
+                        <li><i class="fas fa-check"></i> Alcohol Isopropílico</li>
+                    </ul>
+                </div>
+
+                <!-- Protección -->
+                <div class="tool-card">
+                    <div class="tool-icon-wrapper">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="tool-title">Protección</h3>
+                    <p>Seguridad para ti y para el equipo, además de orden durante el trabajo.</p>
+                    <ul class="tool-list">
+                        <li><i class="fas fa-check"></i> Pulsera Antiestática</li>
+                        <li><i class="fas fa-check"></i> Organizador de Tornillos</li>
+                        <li><i class="fas fa-check"></i> Pasta Térmica</li>
+                        <li><i class="fas fa-check"></i> Linterna LED</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página de Mantenimiento Preventivo -->
+        <div id="maintenance" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Mantenimiento Preventivo</h1>
+                <p class="page-subtitle">Guía completa para mantener tu computador en óptimas condiciones</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-shield-alt"></i> ¿Qué es el mantenimiento preventivo?</h3>
+                <p>El mantenimiento preventivo consiste en una serie de acciones periódicas que se realizan para mantener el computador en óptimas condiciones y prevenir fallas futuras. Es una práctica proactiva que ayuda a extender la vida útil del equipo y mejorar su rendimiento.</p>
+                
+                <h3><i class="far fa-calendar-alt"></i> ¿Cuándo debe hacerse?</h3>
+                <p>Se recomienda realizar mantenimiento preventivo cada 6 meses para equipos de uso doméstico, y cada 3 meses para equipos en entornos con mucho polvo o uso intensivo. En ambientes educativos o empresariales, se sugiere un mantenimiento trimestral.</p>
+                
+                <h3><i class="fas fa-tasks"></i> ¿Para qué sirve?</h3>
+                <ul class="specs-list">
+                    <li>Prolongar la vida útil del equipo</li>
+                    <li>Prevenir fallas costosas</li>
+                    <li>Mantener el rendimiento óptimo</li>
+                    <li>Reducir tiempos de inactividad</li>
+                    <li>Mejorar la seguridad del sistema</li>
+                    <li>Optimizar el consumo energético</li>
+                </ul>
+            </div>
+
+            <!-- Fase 1 -->
+            <div class="info-card">
+                <h3><i class="fas fa-trash-alt"></i> Fase 1: Limpieza de Archivos Innecesarios</h3>
+                <p>Con el tiempo, la computadora acumula archivos temporales (basura digital) que la hacen más lenta. Eliminarlos libera espacio y mejora la velocidad.</p>
+                
+                <div class="maintenance-steps-grid">
+                    <!-- Paso 1 -->
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/IM0gxkS.png')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/IM0gxkS.png" alt="Paso 1" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-number">Paso 1</span>
+                            <h3>Vaciar la Papelera de Reciclaje</h3>
+                            <p>Es el paso más simple. Busque el ícono de la "Papelera de Reciclaje" en el escritorio. Haga clic derecho sobre él y seleccione "Vaciar Papelera de Reciclaje". Esto elimina definitivamente los archivos que usted ya borró previamente.</p>
+                        </div>
+                    </div>
+                    <!-- Paso 2 -->
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/sseXOnr.jpeg')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/sseXOnr.jpeg" alt="Paso 2" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-number">Paso 2</span>
+                            <h3>Liberación de Espacio en Disco</h3>
+                            <ol style="padding-left: 1.5rem; color: var(--text-light);">
+                                <li>Busque en el menú de Windows la herramienta "Liberador de espacio en disco".</li>
+                                <li>Se abrirá una ventana. Marque la casilla "Archivos temporales" y la casilla "Archivos de programa descargados".</li>
+                                <li>Haga clic en "Aceptar" para que Windows elimine la basura del sistema.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- Paso 3 -->
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/ZGgZGHf.jpeg')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/ZGgZGHf.jpeg" alt="Paso 3" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-number">Paso 3</span>
+                            <h3>Desinstalación de Programas</h3>
+                            <p>Si la computadora tiene programas que "nunca usa":</p>
+                            <ol style="padding-left: 1.5rem; color: var(--text-light);">
+                                <li>Vaya a "Panel de Control" > "Programas y características".</li>
+                                <li>Busque la aplicación no deseada.</li>
+                                <li>Selecciónela y haga clic en "Desinstalar".</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fase 2 -->
+            <div class="info-card">
+                <h3><i class="fas fa-rocket"></i> Fase 2: Optimización de la Velocidad</h3>
+                <p>Esta fase se enfoca en que la computadora se inicie y trabaje más rápido, sin que los programas la detengan.</p>
+                
+                <div class="maintenance-steps-grid">
+                    <!-- Paso 4 -->
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/xdLCZgy.png')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/xdLCZgy.png" alt="Paso 4" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-number">Paso 4</span>
+                            <h3>Controlar Programas al Inicio</h3>
+                            <p>Muchos programas se inician solos cuando prende la computadora:</p>
+                            <ol style="padding-left: 1.5rem; color: var(--text-light);">
+                                <li>Presione <strong>Ctrl + Shift + Esc</strong> para abrir el "Administrador de Tareas".</li>
+                                <li>Haga clic en la pestaña "Inicio".</li>
+                                <li>Deshabilite programas no esenciales.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- Paso 5 -->
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/NIlnwP4.png')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/NIlnwP4.png" alt="Paso 5" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-number">Paso 5</span>
+                            <h3>Actualizar el Sistema</h3>
+                            <p>Las actualizaciones reparan fallas de seguridad:</p>
+                            <ol style="padding-left: 1.5rem; color: var(--text-light);">
+                                <li>Vaya a "Configuración" > "Actualización y Seguridad".</li>
+                                <li>Haga clic en "Buscar actualizaciones".</li>
+                                <li>Instale las actualizaciones y reinicie la computadora.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- Paso 6 -->
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/7iNg87E.png')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/7iNg87E.png" alt="Paso 6" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-number">Paso 6</span>
+                            <h3>Limpieza del Navegador</h3>
+                            <p>El navegador guarda información que lo puede hacer lento:</p>
+                            <ol style="padding-left: 1.5rem; color: var(--text-light);">
+                                <li>Abra su navegador.</li>
+                                <li>Presione <strong>Ctrl + Shift + Supr</strong>.</li>
+                                <li>Seleccione "Todo el tiempo".</li>
+                                <li>Marque "Cookies" y "Archivos en caché".</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fase 3 -->
+            <div class="info-card">
+                <h3><i class="fas fa-shield-virus"></i> Fase 3: Seguridad y Respaldo de la Información</h3>
+                <p>El paso más importante es proteger los datos y prevenir la pérdida de información.</p>
+                
+                <div class="maintenance-steps-grid">
+                    <!-- Paso 7 -->
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/hoi9Soy.png')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/hoi9Soy.png" alt="Paso 7" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-number">Paso 7</span>
+                            <h3>Ejecutar el Antivirus</h3>
+                            <p>Asegúrese de que el programa de seguridad esté encendido:</p>
+                            <ol style="padding-left: 1.5rem; color: var(--text-light);">
+                                <li>Abra el antivirus.</li>
+                                <li>Busque "Escaneo Completo".</li>
+                                <li>Deje que revise todos los archivos para eliminar virus o malware.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- Paso 8 -->
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/WDHqN7f.jpeg')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/WDHqN7f.jpeg" alt="Paso 8" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-number">Paso 8</span>
+                            <h3>Verificar el Respaldo (Backup)</h3>
+                            <p>Si la computadora se daña, es crucial tener copia de datos:</p>
+                            <ol style="padding-left: 1.5rem; color: var(--text-light);">
+                                <li>Asegúrese de que los <strong>archivos importantes</strong> estén guardados en USB o disco externo.</li>
+                                <li>Confirme que la última copia de seguridad haya sido exitosa.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- Paso 9 -->
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/LHHz9JD.png')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/LHHz9JD.png" alt="Paso 9" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <span class="step-number">Paso 9</span>
+                            <h3>Apague Correctamente</h3>
+                            <p>Al terminar de usar la computadora:</p>
+                            <ol style="padding-left: 1.5rem; color: var(--text-light);">
+                                <li>Siempre apáguela usando el menú de Windows (Inicio > Apagar).</li>
+                                <li>Evite desconectarla directamente de la toma de corriente.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="gallery" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Galería</h1>
+                <p class="page-subtitle">Videos y recursos multimedia sobre mantenimiento</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-video"></i> Realizar un mantenimiento preventivo de forma correcta</h3>
+                <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 8px; margin-top: 1rem;">
+                    <iframe 
+                        src="https://www.youtube.com/embed/_xn7mdhRWn4" 
+                        title="Realizar un mantenimiento preventivo de forma correcta" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;">
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-camera"></i> Memoria Fotográfica</h3>
+                <div class="maintenance-steps-grid" style="margin-top: 1rem;">
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/0aCbGEF.jpeg')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/0aCbGEF.jpeg" alt="Memoria Fotográfica 1" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/V1P79Ez.jpeg')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/V1P79Ez.jpeg" alt="Memoria Fotográfica 2" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/8STpvhY.jpeg')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/8STpvhY.jpeg" alt="Memoria Fotográfica 3" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/2t3GDEw.jpeg')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/2t3GDEw.jpeg" alt="Memoria Fotográfica 4" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card" onclick="openModal('https://i.imgur.com/4QgVdcS.jpeg')">
+                        <div class="step-image-container">
+                            <img src="https://i.imgur.com/4QgVdcS.jpeg" alt="Memoria Fotográfica 5" class="step-image">
+                            <div class="step-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-video"></i> Entrega de material informativo a la comunidad</h3>
+                <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 8px; margin-top: 1rem;">
+                    <iframe 
+                        src="https://www.youtube.com/embed/UDldYJLCC0s" 
+                        title="Entrega de material informativo a la comunidad" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--text-light); margin-top: 2rem; border-top: 1px solid var(--dark-accent);">
+            <p>&copy; 2025, Hecho por María Álvarez</p>
+        </footer>
+    </div>
+
+    <!-- Modal para imágenes -->
+    <div id="imageModal" class="image-modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img id="modalImage" src="" alt="Imagen ampliada" class="modal-image">
+        </div>
+    </div>
+
+    <script>
+        // Elementos del DOM
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const mainContent = document.getElementById('mainContent');
+
+        // Función para alternar el menú en móvil
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('mobile-visible');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('mobile-visible') ? 'hidden' : '';
+        }
+
+        // Event listeners para el menú móvil
+        menuToggle.addEventListener('click', toggleMobileMenu);
+        overlay.addEventListener('click', toggleMobileMenu);
+
+        // Cerrar menú al hacer clic en un enlace (en móvil)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Navegación entre páginas desde el menú lateral
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remover clase active de todos los enlaces
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Agregar clase active al enlace clickeado
+                this.classList.add('active');
+                
+                // Ocultar todas las páginas
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Mostrar la página correspondiente
+                const pageId = this.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+                
+                // Scroll al inicio de la página
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Navegación desde las tarjetas de la página principal
+        document.querySelectorAll('.content-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const pageId = this.getAttribute('data-page');
+                
+                // Remover clase active de todos los enlaces
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Agregar clase active al enlace correspondiente
+                document.querySelector(`.nav-link[data-page="${pageId}"]`).classList.add('active');
+                
+                // Ocultar todas las páginas
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Mostrar la página correspondiente
+                document.getElementById(pageId).classList.add('active');
+                
+                // Scroll al inicio de la página
+                window.scrollTo(0, 0);
+                
+                // Cerrar menú en móvil
+                if (window.innerWidth <= 768) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+
+
+        // Tarjetas de componentes desplegables
+        document.querySelectorAll('.component-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const componentCard = header.parentElement;
+                componentCard.classList.toggle('active');
+                
+                const icon = header.querySelector('.fa-chevron-down');
+                if (componentCard.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+
+        // Tarjetas de fallas desplegables
+        document.querySelectorAll('.issue-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const issueCard = header.parentElement;
+                issueCard.classList.toggle('active');
+                
+                const icon = header.querySelector('.fa-chevron-down');
+                if (issueCard.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+
+        // Funcionalidad del glosario - items desplegables
+        document.querySelectorAll('.glosario-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        // Ajustar el diseño según el tamaño de la pantalla
+        function handleResize() {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('mobile-hidden');
+                mainContent.classList.add('full-width');
+            } else {
+                sidebar.classList.remove('mobile-hidden', 'mobile-visible');
+                mainContent.classList.remove('full-width');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Ejecutar al cargar y al redimensionar
+        window.addEventListener('load', handleResize);
+        window.addEventListener('resize', handleResize);
+
+        // Funciones para el modal de imágenes
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = imageSrc;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Evitar scroll
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restaurar scroll
+            setTimeout(() => {
+                document.getElementById('modalImage').src = '';
+            }, 300); // Limpiar src después de la transición
+        }
+
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
+                                                                      
